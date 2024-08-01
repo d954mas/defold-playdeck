@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<body>
+	<script id='playdeck-sdk-setup' type='text/javascript'>
+		window.playdeck_defold_sdk = {
+			events_queue: [],
+			game_ready: false,
+			send: null,
+		}
+
+		window.addEventListener("message", ({ data }) => {
+			if (!data  || !data["playdeck"]) return;
+			//if (data["playdeck"].method == "loading"){return;}
+			if (window.playdeck_defold_sdk.game_ready) {
+				window.playdeck_defold_sdk.send(data["playdeck"]);
+			} else {
+				window.playdeck_defold_sdk.events_queue.push(data["playdeck"]);
+			}
+		});
+
+		 // We auto-report progress based on the engine loading, if your game needs additional time to load assets,
+        // you can comment this out and report progress manually so the game does not start before it's ready.
+        if (Progress) {
+            Progress.addListener(val => {
+				window.parent.window.postMessage({ playdeck: { method: "loading", value: val } }, "*");
+            });
+        }
+	</script>
+</body>
+</html>
