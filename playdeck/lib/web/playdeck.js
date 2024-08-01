@@ -104,12 +104,6 @@ var LibPlaydeck = {
         window.parent.window.postMessage({ playdeck: { method: "showAd" } }, "*");
     },
 
-    //TODO: NOT IN API. DEPRECATED? 
-    HtmlPlaydeckSetScore: function (score, isForce) {
-        window.parent.window.postMessage({ playdeck: { method: "setScore", value: score, isForce: isForce } }, "*");
-    },
-
-
 }
 
 autoAddDeps(LibPlaydeck, '$PlaydeckSdk');

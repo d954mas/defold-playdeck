@@ -14,3 +14,6 @@ input_method = HiddenInputField
 [project]
 title = defold-playdeck
 
+[library]
+include_dirs = playdeck
+

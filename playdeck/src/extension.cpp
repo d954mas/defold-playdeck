@@ -5,7 +5,12 @@
 #define MODULE_NAME "playdeck"
 // include the Defold SDK
 #include <dmsdk/sdk.h>
-#include "utils.h"
+
+
+inline void check_table(lua_State *L, int index) {
+ 
+}
+
 
 #if defined(DM_PLATFORM_HTML5)
 
@@ -28,10 +33,11 @@ extern "C" void HtmlPlaydeckRequestPayment(const char *jsonStr);
 extern "C" void HtmlPlaydeckGetPaymentInfo(const char *jsonStr);
 extern "C" void HtmlPlaydeckGetToken();
 extern "C" void HtmlPlaydeckShowAd();
-extern "C" void HtmlPlaydeckSetScore(int score, bool force);
 
 inline void convert_lua_table_to_json(lua_State *L, int index, char** json, size_t* json_length) {
-    check_table(L, index);
+    if (!lua_istable(L, index)) {
+        luaL_error(L, "Expected table but got %s", luaL_typename(L, index));
+    }
     int ret = dmScript::LuaToJson(L, json, json_length);
     if (ret != 0) {
         luaL_error(L, "Failed to convert lua table to json: %s", lua_tostring(L, -1));
@@ -213,10 +219,6 @@ static int LuaPlaydeckShowAd(lua_State *L) {
     return 0;
 }
 
-static int LuaPlaydeckSetScore(lua_State *L) {
-    HtmlPlaydeckSetScore(lua_tonumber(L, 1), lua_toboolean(L, 2));
-    return 0;
-}
 
 static const luaL_reg Module_methods[] = {
     {"register_callback", LuaPlaydeckRegisterCallback},
