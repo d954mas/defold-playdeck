@@ -5,6 +5,7 @@
 PlayDeck is a Telegram-native gaming marketplace that empowers game developers to showcase their games on one of the fastest-growing social platforms. With PlayDeck toolkit solutions, you can launch Web2 and Web3 games on Telegram and use all the benefits of social and referral mechanics to boost traffic and revenue.
 
 [More info](https://playdeck.io)
+
 [Official Integration Guide(JS)](https://github.com/ton-play/playdeck-integration-guide)
 
 ---
@@ -36,29 +37,32 @@ if (Progress) {
 ```
 playdeck.register_callback(function(self, data)
     pprint(data) -- log received data
-	if data.method == "loaded" then
+
+    if data.method == "loaded" then
 		
-	elseif data.method == "getData" then
+    elseif data.method == "getData" then
 		
-	elseif data.method == "play" then
+    elseif data.method == "play" then
 	
-	elseif (data.method == "rewardedAd") then
+    elseif (data.method == "rewardedAd") then
 		
-	elseif (data.method == "errAd") then
+    elseif (data.method == "errAd") then
 		
-	elseif (data.method == "skipAd") then
+    elseif (data.method == "skipAd") then
 		
-	elseif (data.method == "notFoundAd") then
+    elseif (data.method == "notFoundAd") then
 	
-	elseif (data.method == "startAd") then
+    elseif (data.method == "startAd") then
 		
-	...
+    ...
 end)
 ```
 
 
+---
+## API
 
-3. API
+For details look in [Official Integration Guide(JS)](https://github.com/ton-play/playdeck-integration-guide)
 
 1. Register Callback
 ```lua
@@ -82,17 +86,14 @@ end
 3. GetData/SetData
 ```lua
 playdeck.get_data("storage")
-playdeck.set_data("storage", json.encode(lua_table)
+playdeck.set_data("storage", json.encode(lua_table))
 ```
 
 ```lua
 --callback
 if data.method == "getData" then
     if data.value.data then
-        local data = JSON.decode(data.value.data)
-        if data then
-            self.world.storage:restore(data)
-        end
+        local lua_table = JSON.decode(data.value.data)
     else
         print("no data")
     end
@@ -197,16 +198,6 @@ end
 ```lua
 playdeck.show_ad()
 ```
-
-elseif (data.method == "rewardedAd") then
-		
-	elseif (data.method == "errAd") then
-		
-	elseif (data.method == "skipAd") then
-		
-	elseif (data.method == "notFoundAd") then
-	
-	elseif (data.method == "startAd") then
 
 ```lua
 --callback
