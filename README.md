@@ -23,7 +23,7 @@ You can use the **playdeck** extension in your own project by adding this projec
 1. Look at official integration guide [Official Integration Guide(JS)](https://github.com/ton-play/playdeck-integration-guide)
 
 2. Loding message will be send automatically.
-```
+```js
 // We auto-report progress based on the engine loading, if your game needs additional time to load assets,
 // you can comment this out and report progress manually so the game does not start before it's ready.
 if (Progress) {
@@ -34,7 +34,7 @@ if (Progress) {
 ```
 
 3. When your game is loaded register callback
-```
+```lua
 playdeck.register_callback(function(self, data)
     pprint(data) -- log received data
 
