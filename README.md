@@ -15,7 +15,7 @@ PlayDeck is a Telegram-native gaming marketplace that empowers game developers t
 
 You can use the **playdeck** extension in your own project by adding this project as a [Defold library dependency](https://www.defold.com/manuals/libraries/). Open your game.project file and in the dependencies field under project add:
 
-> [https://github.com/d954mas/defold-playdeck/releases/1.0.0.zip](https://github.com/d954mas/defold-playdeck/releases/1.0.0.zip)
+> https://github.com/d954mas/defold-playdeck/archive/refs/tags/1.0.0.zip
 
 
 ---
