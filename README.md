@@ -26,11 +26,9 @@ You can use the **playdeck** extension in your own project by adding this projec
 ```js
 // We auto-report progress based on the engine loading, if your game needs additional time to load assets,
 // you can comment this out and report progress manually so the game does not start before it's ready.
-if (Progress) {
-    Progress.addListener(val => {
-        window.parent.window.postMessage({ playdeck: { method: "loading", value: val } }, "*");
-    });
-}
+Progress.addListener(val => {
+    window.parent.window.postMessage({ playdeck: { method: "loading", value: val } }, "*");
+});
 ```
 
 3. When your game is loaded register callback
@@ -71,7 +69,14 @@ playdeck.register_callback(function(self, data)
     ...
 ```
 
-2. GetUserProfile
+2. Loaiding
+
+Loading is send autocaticaly. If you need you can remove Progress.addListener from playdeck\manifests\web\engine_template.html and send progress manualy
+```lua
+playdeckloading(progress)
+```
+
+3. GetUserProfile
 ```lua
 playdeck.get_user_profile()
 ```
@@ -83,10 +88,12 @@ if data.method == "getUserProfile" then
 end
 ```
 
-3. GetData/SetData
+4. GetData/SetData
 ```lua
 playdeck.get_data("storage")
-playdeck.set_data("storage", json.encode(lua_table))
+playdeck.set_data("storage", json.encode(lua_table)) --string
+playdeck.set_data("score", 100) --number
+playdeck.set_data("is_happy", true) --boolean
 ```
 
 ```lua
@@ -100,12 +107,12 @@ if data.method == "getData" then
 end
 ```
 
-4. CustomShare.
+5. CustomShare.
 ```lua
 playdeck.custom_share(lua_table)
 ```
 
-5. GetShareLink.
+6. GetShareLink.
 ```lua
 playdeck.get_share_link(lua_table)
 ```
@@ -117,12 +124,12 @@ if data.method == "getShareLink" then
 end
 ```
 
-6. OpenTelegramLink.
+7. OpenTelegramLink.
 ```lua
 playdeck.open_telegram_link(url)
 ```
 
-7. GetPlaydeckState.
+8. GetPlaydeckState.
 ```lua
 playdeck.get_playdeck_state()
 ```
@@ -134,27 +141,27 @@ if data.method == "getPlaydeckState" then
 end
 ```
 
-8. GameEnd.
+9. GameEnd.
 ```lua
 playdeck.game_end()
 ```
 
-9. SendGameProgress.
+10. SendGameProgress.
 ```lua
 playdeck.send_game_progress(lua_table)
 ```
 
-10. SendAnalyticNewSession.
+11. SendAnalyticNewSession.
 ```lua
 playdeck.send_analytic_new_session()
 ```
 
-11. SendAnalytics.
+12. SendAnalytics.
 ```lua
 playdeck.send_analytics(lua_table)
 ```
 
-12. RequestPayment.
+13. RequestPayment.
 ```lua
 playdeck.request_payment(lua_table)
 ```
@@ -170,7 +177,7 @@ elseif (data.method == 'invoiceClosed') {
 end
 ```
 
-13. GetPaymentInfo.
+14. GetPaymentInfo.
 ```lua
 playdeck.get_payment_info(lua_table)
 ```
@@ -182,7 +189,7 @@ if data.method == "getPaymentInfo" then
 end
 ```
 
-14. GetToken.
+15. GetToken.
 ```lua
 playdeck.get_token()
 ```
@@ -194,7 +201,7 @@ if data.method == "getToken" then
 end
 ```
 
-15. ShowAd.
+16. ShowAd.
 ```lua
 playdeck.show_ad()
 ```
