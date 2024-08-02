@@ -18,7 +18,9 @@ typedef void (*PlaydeckCallback)(const char *data, const int length);
 
 extern "C" void HtmlPlaydeckRegisterCallback(PlaydeckCallback callback);
 extern "C" void HtmlPlaydeckGetUserProfile();
-extern "C" void HtmlPlaydeckSetData(const char *key, const char *value);
+extern "C" void HtmlPlaydeckSetDataString(const char *key, const char *value);
+extern "C" void HtmlPlaydeckSetDataBoolean(const char *key, int value);
+extern "C" void HtmlPlaydeckSetDataNumber(const char *key, float value);
 extern "C" void HtmlPlaydeckGetData(const char *key);
 extern "C" void HtmlPlaydeckCustomShare(const char *jsonStr);
 extern "C" void HtmlPlaydeckGetShareLink(const char *jsonStr);
@@ -33,6 +35,7 @@ extern "C" void HtmlPlaydeckRequestPayment(const char *jsonStr);
 extern "C" void HtmlPlaydeckGetPaymentInfo(const char *jsonStr);
 extern "C" void HtmlPlaydeckGetToken();
 extern "C" void HtmlPlaydeckShowAd();
+extern "C" void HtmlPlaydeckLoading(float value);
 
 inline void convert_lua_table_to_json(lua_State *L, int index, char** json, size_t* json_length) {
     if (!lua_istable(L, index)) {
@@ -132,7 +135,16 @@ static int LuaPlaydeckGetUserProfile(lua_State *L) {
 }
 
 static int LuaPlaydeckSetData(lua_State *L) {
-    HtmlPlaydeckSetData(luaL_checkstring(L, 1), luaL_checkstring(L, 2));
+    const char *key = luaL_checkstring(L, 1);
+    if (lua_isstring(L, 2)) {
+        HtmlPlaydeckSetDataString(key, luaL_checkstring(L, 2));
+    } else if (lua_isboolean(L, 2)) {
+        HtmlPlaydeckSetDataBoolean(key, lua_toboolean(L, 2) ? 1 : 0);
+    } else if (lua_isnumber(L, 2)) {
+        HtmlPlaydeckSetDataNumber(key, lua_tonumber(L, 2));
+    } else {
+        luaL_error(L, "Invalid type for value: %s", luaL_typename(L, 2));
+    }
     return 0;
 }
 
@@ -219,8 +231,14 @@ static int LuaPlaydeckShowAd(lua_State *L) {
     return 0;
 }
 
+static int LuaPlaydeckLoading(lua_State *L) {
+    HtmlPlaydeckLoading(luaL_checknumber(L, 1));
+    return 0;
+}
+
 
 static const luaL_reg Module_methods[] = {
+    {"loading", LuaPlaydeckLoading},
     {"register_callback", LuaPlaydeckRegisterCallback},
     {"get_user_profile", LuaPlaydeckGetUserProfile},
     {"set_data", LuaPlaydeckSetData},

@@ -16,6 +16,10 @@ var LibPlaydeck = {
         }
     },
 
+    HtmlPlaydeckLoading: function (value) {
+        window.parent.window.postMessage({ playdeck: { method: "loading", value: value } }, "*");
+    },
+
     HtmlPlaydeckRegisterCallback: function (callback) {
         PlaydeckSdk._callback = callback;
         //post all saved events
@@ -31,9 +35,16 @@ var LibPlaydeck = {
         window.parent.window.postMessage({ playdeck: { method: "getUserProfile" } }, "*");
     },
 
-    HtmlPlaydeckSetData: function (key, value) {
+    HtmlPlaydeckSetDataString: function (key, value) {
         window.parent.window.postMessage({ playdeck: { method: "setData", key: UTF8ToString(key), value: UTF8ToString(value) } }, "*");
     },
+    HtmlPlaydeckSetDataBoolean: function (key, value) {
+        window.parent.window.postMessage({ playdeck: { method: "setData", key: UTF8ToString(key), value: value } }, "*");
+    },
+    HtmlPlaydeckSetDataNumber: function (key, value) {
+        window.parent.window.postMessage({ playdeck: { method: "setData", key: UTF8ToString(key), value: value === 1 } }, "*");
+    },
+
 
     HtmlPlaydeckGetData: function (key) {
         window.parent.window.postMessage({ playdeck: { method: "getData", key: UTF8ToString(key) } }, "*");

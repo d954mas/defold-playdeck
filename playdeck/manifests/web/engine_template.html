@@ -20,11 +20,9 @@
 
 		 // We auto-report progress based on the engine loading, if your game needs additional time to load assets,
         // you can comment this out and report progress manually so the game does not start before it's ready.
-        if (Progress) {
-            Progress.addListener(val => {
-				window.parent.window.postMessage({ playdeck: { method: "loading", value: val } }, "*");
-            });
-        }
+		Progress.addListener(val => {
+			window.parent.window.postMessage({ playdeck: { method: "loading", value: val } }, "*");
+		});
 	</script>
 </body>
 </html>
