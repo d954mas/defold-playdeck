@@ -3,6 +3,7 @@ var LibPlaydeck = {
     $PlaydeckSdk: {
 
         _callback: null,
+        _messagesHashTable: {},
 
         _call_callback: function (data) {
             data = JSON.stringify(data);
@@ -86,12 +87,19 @@ var LibPlaydeck = {
         window.parent.window.postMessage({ playdeck: { method: "sendAnalytics", value: value } }, "*");
     },
 
-    HtmlPlaydeckSendAnalyticsInternalError: function (errorStr) {
+    HtmlPlaydeckSendAnalyticsInternalError: function (formatted_string) {
+        var js_formatted_string = UTF8ToString(formatted_string);
+        if (PlaydeckSdk._messagesHashTable[js_formatted_string]) {
+            return;
+        }
+        PlaydeckSdk._messagesHashTable[js_formatted_string] = true;
+        var final_message = "DEFOLD:" + js_formatted_string;
+
         let eventError = {
             type: 'click',
             user_properties: {},
             event_properties: {
-                error: errorStr,
+                error: final_message,
             },
         };
         window.parent.window.postMessage({ playdeck: { method: "sendAnalytics", value: eventError } }, "*");
