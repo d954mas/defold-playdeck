@@ -73,7 +73,7 @@ playdeck.register_callback(function(self, data)
 
 Loading is send autocaticaly. If you need you can remove Progress.addListener from playdeck\manifests\web\engine_template.html and send progress manualy
 ```lua
-playdeckloading(progress)
+playdeck.loading(progress)
 ```
 
 3. GetUserProfile
