@@ -99,7 +99,8 @@ var LibPlaydeck = {
             type: 'click',
             user_properties: {},
             event_properties: {
-                error: final_message,
+                name : "defold_error",
+                defold_error: final_message,
             },
         };
         window.parent.window.postMessage({ playdeck: { method: "sendAnalytics", value: eventError } }, "*");
